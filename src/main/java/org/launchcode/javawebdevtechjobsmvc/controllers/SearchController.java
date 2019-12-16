@@ -22,14 +22,16 @@ public class SearchController {
     @RequestMapping(value = "")
     public String search(Model model) {
         model.addAttribute("columns", columnChoices);
+        model.addAttribute("radioChecked", "all");
         return "search";
     }
 
     // TODO #3 - Create a handler to process a search request and render the updated search view.
-    @PostMapping("results")
+    @PostMapping(value = "results")
     public String displaySearchResults(Model model, @RequestParam(defaultValue = "all") String searchTerm,
                                        @RequestParam String searchType) {
         List<Job> jobs;
+
 
         if(searchTerm.equals("all")) {
             jobs = JobData.findAll();
@@ -39,6 +41,7 @@ public class SearchController {
 
         model.addAttribute("columns", columnChoices);
         model.addAttribute("jobs", jobs);
+        model.addAttribute("radioChecked", searchType);
 
         return "search";
     }
